@@ -56,11 +56,18 @@ namespace csi281 {
         // Return -1 if it is not found>
         int find(const T &item) {
             // YOUR CODE HERE
+            for (int i = 0; i < capacity; i++) {
+                if (item == backingStore[i]) {
+                    return i;
+                }
+            }
+            return -1;
         }
         
         // Get the item at a particular index
         T &get(int index) {
             // YOUR CODE HERE
+            return backingStore[index];
         }
         
         // Insert at the beginning of the collection
@@ -69,6 +76,13 @@ namespace csi281 {
         // Hint: May want to use moveDownFrom()
         void insertAtBeginning(const T &item) {
             // YOUR CODE HERE
+            
+            if (backingStore[capacity - 1] != NULL)
+                setCapacity(capacity+1);
+            
+            moveDownFrom(0);
+            backingStore[0] = item;
+            count++;
         }
         
         // Insert at the end of the collection
@@ -76,6 +90,11 @@ namespace csi281 {
         // inserting
         void insertAtEnd(const T &item) {
             // YOUR CODE HERE
+            if (backingStore[capacity-1] != NULL)
+                setCapacity(capacity + 1);
+            
+            backingStore[count] = item;
+            count++;
         }
         
         // Insert at a specific index
@@ -84,17 +103,31 @@ namespace csi281 {
         // Hint: May want to use moveDownFrom()
         void insert(const T &item, int index) {
             // YOUR CODE HERE
+
+            if (backingStore[capacity - 1] != NULL)
+                setCapacity(capacity + 1);
+
+            moveDownFrom(index);
+            backingStore[index] = item;
+            count++;
         }
         
         // Remove the item at the beginning of the collection
         void removeAtBeginning() {
             // YOUR CODE HERE
+            count--;
+            for (int i = 0; i < capacity-1; i++)
+            {
+                backingStore[i] = backingStore[i + 1];
+            }
         }
         
         // Remove the item at the end of the collection
         // Hint: This might be very simple.
         void removeAtEnd() {
             // YOUR CODE HERE
+            count--;
+            setCapacity(capacity - 1);
         }
         
         // Remove the item at a specific index
@@ -102,6 +135,10 @@ namespace csi281 {
         // down and removing the starting beginning element
         void removeAt(int index) {
             // YOUR CODE HERE
+            count--;
+            for (int i = index; i < capacity - 1; i++) {
+                backingStore[i] = backingStore[i + 1];
+            }
         }
         
         // Change the capacity of the dynamic array

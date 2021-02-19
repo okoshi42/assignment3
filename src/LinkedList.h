@@ -56,6 +56,14 @@ namespace csi281 {
         // Return -1 if it is not found
         int find(const T &item) {
             // YOUR CODE HERE
+            int indexCounter = 0;
+            for (Node* current = head; current != nullptr; current = current->next) {
+                if (current->data == item) {
+                    return indexCounter;
+                }
+                indexCounter++;
+            }
+            return -1;
         }
         
         // Get the item at a particular index
@@ -63,16 +71,37 @@ namespace csi281 {
             assert(index < count); // can't insert off end
             assert(index >= 0); // no negative indices
             // YOUR CODE HERE
+            Node* current = head;
+            for (int i = 0; i < index; i++) {
+                current = current->next;
+            }
+            return current->data;
         }
         
         // Insert at the beginning of the collection
         void insertAtBeginning(const T &item) {
             // YOUR CODE HERE
+            count++;
+            Node *newStart = new Node(item);
+            newStart->next = head;
+            head = newStart;
+            
         }
         
         // Insert at the end of the collection
         void insertAtEnd(const T &item) {
             // YOUR CODE HERE
+            count++;
+            Node *newNode = new Node(item);
+            newNode->next = nullptr;
+            if (head == nullptr) {
+                head = newNode;
+            }
+            if (tail != nullptr) {
+                Node* oldTail = tail;
+                oldTail->next = newNode;
+            }
+            tail = newNode;
         }
         
         // Insert at a specific index
@@ -105,12 +134,24 @@ namespace csi281 {
         void removeAtBeginning() {
             assert(count > 0);
             // YOUR CODE HERE
+            count--;
+            Node *newHead = head->next;
+            delete head;
+            head = newHead;
+            
         }
         
         // Remove the item at the end of the collection
         void removeAtEnd() {
             assert(count > 0);
             // YOUR CODE HERE
+            count--;
+            Node* current = head;
+            for (int i = 0; i < count-1; i++) {
+                current = current->next;
+            }
+            tail = current;
+            delete current->next;
         }
         
         // Remove the item at a specific index
